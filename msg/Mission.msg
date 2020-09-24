@@ -1,0 +1,8 @@
+string batteryPercentage
+string binStatus
+string missionCoveredSquareFootage
+string missionElapsedMinutes
+string readyStatus
+int32[2] robotPositionXY
+int32 robotPositionAngle
+string robotStatus
