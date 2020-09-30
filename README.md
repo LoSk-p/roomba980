@@ -3,7 +3,7 @@ ROS package to send and recive messages from Roomba980.
 Thanks to https://github.com/NickWaterton/Roomba980-Python for python library to communicate with Roomba.
 ***
 ## Installation
-Install python library to connect with Roomba:
+Install python library:
 ```bash
 pip3 install paho-mqtt
 pip3 install six
