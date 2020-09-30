@@ -1,8 +1,10 @@
+string name
+string current_state
 string batteryPercentage
-string binStatus
-string missionCoveredSquareFootage
-string missionElapsedMinutes
-string readyStatus
+string mission_cycle
+string mission_phase
+string mission_notReady
 int32[2] robotPositionXY
 int32 robotPositionAngle
-string robotStatus
+string audio
+string error
