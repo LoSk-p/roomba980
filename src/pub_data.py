@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import rospy
 import json
 from std_msgs.msg import String
@@ -6,6 +6,7 @@ from roomba980.msg import Mission
 import sys
 sys.path.insert(0, '/home/alena/Roomba980-Python/roomba')
 from roomba import Roomba
+
 file = open('/home/alena/roomba_wc/src/roomba980/src/config', 'r')
 roomba_IP = file.readline()
 roomba_blit = file.readline()
