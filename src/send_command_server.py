@@ -5,10 +5,11 @@ from std_msgs.msg import String
 from roomba980.msg import Mission
 from roomba980.srv import Command
 import sys
+file = open('config', 'r')
 sys.path.insert(0, '/home/alena/Roomba980-Python/roomba')
 from roomba import Roomba
 
-file = open('/home/alena/roomba_wc/src/roomba980/src/config', 'r')
+
 roomba_IP = file.readline()
 roomba_blit = file.readline()
 roomba_password = file.readline()
