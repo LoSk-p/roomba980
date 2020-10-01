@@ -3,12 +3,12 @@ import rospy
 import json
 from std_msgs.msg import String
 from roomba980.msg import Mission
+from roomba980.srv import Command
 import sys
-file = open('/src/config', 'r')
 sys.path.insert(0, '/home/alena/Roomba980-Python/roomba')
 from roomba import Roomba
 
-#file = open('/home/alena/roomba_wc/src/roomba980/src/config', 'r')
+file = open('/home/alena/roomba_wc/src/roomba980/src/config', 'r')
 roomba_IP = file.readline()
 roomba_blit = file.readline()
 roomba_password = file.readline()
@@ -18,11 +18,32 @@ roomba_blit = roomba_blit.split()[0]
 roomba_password = roomba_password.split()[0]
 
 
-myroomba = Roomba(roomba_IP, roomba_blit, roomba_password)
+#myroomba = Roomba(roomba_IP, roomba_blit, roomba_password)
 
-#data = {'name': 'robot', 'batPct': 100, 'cleanMissionStatus': {'cycle': 'none', 'phase': 'charge', 'error': 0, 'notReady': 0}, 'pose': {'point': {'x': 100, 'y': 20},'theta': -28}, 'audio': {'active': True}}
-#data_state = "Charging"
+data = {'name': 'robot', 'batPct': 100, 'cleanMissionStatus': {'cycle': 'none', 'phase': 'charge', 'error': 0, 'notReady': 0}, 'pose': {'point': {'x': 100, 'y': 20},'theta': -28}, 'audio': {'active': True}}
+data_state = "Charging"
 
+def send_command(req):
+    #print(req.command)
+    #myroomba.connect()
+    if req.command == 'Start':
+        #myroomba.send_command("start")
+        return('Starting cleaning')
+    elif req.command == 'Stop':
+        #myroomba.send_command("stop")
+        return('Stop cleaning')
+    elif req.command == 'Home':
+        #myroomba.send_command("dock")
+        return('Going back home')
+    else:
+        return('Wrong command')
+    #myroomba.disconnect()
+'''
+def send_command_server():
+    rospy.init_node('send_command_server')
+    rospy.Service('send_command', Command, send_command)
+    rospy.spin()
+'''
 def get_msg_data(data, data_state):
     miss_msg = Mission()
     miss_msg.name = data['name']
@@ -40,22 +61,24 @@ def get_msg_data(data, data_state):
 
 
 def talker():
+    rospy.Service('send_command', Command, send_command)
     pub = rospy.Publisher('mission', Mission, queue_size=10)
     rospy.init_node('getMission', anonymous=True)
     rate = rospy.Rate(1)
     while not rospy.is_shutdown():
-        myroomba.connect()
-        data_state = myroomba.current_state
-        data1 = myroomba.master_state
-        data = data1['state']['reported']
+        #myroomba.connect()
+        #data_state = myroomba.current_state
+        #data1 = myroomba.master_state
+        #data = data1['state']['reported']
         mission_msg = get_msg_data(data, data_state)
         pub.publish(mission_msg)
-        myroomba.disconnect()
+        #myroomba.disconnect()
         rate.sleep()
 
 
 if __name__ == '__main__':
     try:
+        #send_command_server()
         talker()
     except rospy.ROSInterruptException:
         pass
