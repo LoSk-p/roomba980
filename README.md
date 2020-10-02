@@ -74,6 +74,7 @@ And sent the transaction
 ```bash
 echo "ON" | ./robonomics io write launch -r <ROOMBA_ADDRESS> -s <WORK_KEY>
 ```
-Where <ROOMBA_ADDRESS> and <WORK_KEY> are address and key from your accounts
+Where <ROOMBA_ADDRESS> and <WORK_KEY> are address and key from your accounts.
+Your Roomba will start cleaning and will return to charge after 10 minutes.
 
 
