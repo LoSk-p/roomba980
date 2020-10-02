@@ -8,11 +8,13 @@ import subprocess
 import os
 import time
 import ipfshttpclient
+import yaml
 
-roomba_address = "5GFAWEKfV6awpZUzAcuPaBjZaHDGoi37BkmjE5mxRcbvkxY1"
-roomba_key = "0xe6a576226ab22016c7873f15922e9ec2ff59498260ebdb7b39337214370422c4"
-work_address = "5Ci61tCV7GgooiCb8W2jnZFsdSTfURCVpXPXS5JCAdqRGFiQ"
-robonomics_path = "/home/alena/"
+dirname = os.path.dirname(__file__)
+f = open(dirname + '/config.yaml')
+content = f.read()
+f.close()
+config = yaml.load(content)
 
 rospy.init_node('robonomics_listener', anonymous=False)
 client = ipfshttpclient.connect()
@@ -36,7 +38,7 @@ def clean(duration):
     first_time = time.time()
     send_command_client('Start')
     global file
-    file = open('data', 'w')
+    file = open(dirname + "/data", 'w')
     global write
     write = True
     while (time.time() - first_time) < duration:
@@ -47,24 +49,22 @@ def clean(duration):
     send_command_client('Stop')
     time.sleep(2)
     send_command_client('Home')
-    res = client.add('data')
+    res = client.add(dirname + "/data")
     print('Data sent to IPFS')
-    command = "echo \"Hash: " + res['Hash'] + "\" | " + robonomics_path + "robonomics io write datalog -s " + roomba_key
+    command = "echo \"Hash: " + res['Hash'] + "\" | " + config["path"]["robonomics"] + "robonomics io write datalog -s " + config["robonomics"]["roomba_key"]
     send_datalog = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
     print('Hash sent to datalog')
 
 if __name__ == "__main__":
     work_paid = True
-    proc = robonomics_path + "robonomics io read launch"
+    proc = config["path"]["robonomics"] + "robonomics io read launch"
     process = subprocess.Popen(proc, shell=True, stdout=subprocess.PIPE)
     #while True:
     if work_paid:
         print("Waiting for payment")
     try:
         output = process.stdout.readline()
-        print(output.strip())
-        print(work_address + " >> " + roomba_address + " : true")
-        if output.strip() == work_address + " >> " + roomba_address + " : true":
+        if output.strip() == config["robonomics"]["work_address"] + " >> " + config["robonomics"]["roomba_address"] + " : true":
             print("Work paid")
             work_paid = True
             clean(5)

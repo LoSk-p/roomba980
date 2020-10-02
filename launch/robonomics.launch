@@ -1,0 +1,4 @@
+<launch>	 
+    <node pkg="roomba980" type="pub_data.py" name="pub_data" respawn="true"/>
+    <node pkg="roomba980" type="send_data_client.py" name="send_data_client" output="screen" respawn="true"/>
+</launch>

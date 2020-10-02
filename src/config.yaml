@@ -1,0 +1,11 @@
+roomba:
+    IP: "192.168.20.13"
+    blid: "3144460C21204760"
+    password: ":1:1585726936:MR2YmTTRQnysWs0O"
+path:
+    robonomics: "/home/alena/"
+    roomba_python: "/home/alena/"
+robonomics:
+    roomba_address: "5GFAWEKfV6awpZUzAcuPaBjZaHDGoi37BkmjE5mxRcbvkxY1"
+    roomba_key: "0xe6a576226ab22016c7873f15922e9ec2ff59498260ebdb7b39337214370422c4"
+    work_address: "5Ci61tCV7GgooiCb8W2jnZFsdSTfURCVpXPXS5JCAdqRGFiQ"
