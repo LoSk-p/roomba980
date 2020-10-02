@@ -4,10 +4,6 @@ Thanks to https://github.com/NickWaterton/Roomba980-Python for python library to
 ***
 ## Requirements
 * ROS melodic (installation instraction [here](http://wiki.ros.org/melodic/Installation/Ubuntu))
-* Some extra packages
-```bash
-sudo apt-get install ros-melodic-gazebo-ros-control ros-melodic-effort-controllers ros-melodic-joint-state-controller
-```
 * IPFS 0.4.22 (download from [here](https://www.npackd.org/p/ipfs/0.4.22) and install)
 ```bash
 tar -xvzf go-ipfs_v0.4.22_linux-386.tar.gz
@@ -38,13 +34,7 @@ catkin_make
 ```
 ***
 ## Configuration
-Edit config file in roomba980/src, write your roomba's IP, blid and password. In file pub_data.py edit lines 8 and 11 writing your path to python Roomba library and roomba980 ROS package.
-In roomba980 package path you need to edit send_data_client.py. 
-```bash
-cd src/
-nano send_data_client.py
-```
-Change roomba_address, roomba_key and work_address to you addresses and key, then change robonomics_path to your path to file robonomics.
+Edit config.yaml file in roomba980/src. In "path" write your path to robonomics file and to Roomba980-Python directory
 ***
 ## Running
 ### Running robonomics
