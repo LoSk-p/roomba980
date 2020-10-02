@@ -1,7 +1,7 @@
 roomba:
     IP: "192.168.20.13"
-    blid: "3144460C21204760"
-    password: ":1:1585726936:MR2YmTTRQnysWs0O"
+    blid: ""
+    password: ""
 path:
     robonomics: "/home/alena/"
     roomba_python: "/home/alena/"
