@@ -38,7 +38,7 @@ Edit config.yaml file in roomba980/src. In "path" write your path to robonomics 
 ***
 ## Running
 ### Running robonomics
-Go to the folder with robonomics file ad create a local robonomics network:
+Go to the folder with robonomics file and create a local robonomics network:
 ```bash
 ./robonomics --dev --rpc-cors all
 ```
@@ -70,7 +70,7 @@ Then run send_data_client.py
 ```bash
 python send_data_client.py
 ```
-And sent the transaction
+And send the transaction
 ```bash
 echo "ON" | ./robonomics io write launch -r <ROOMBA_ADDRESS> -s <WORK_KEY>
 ```
