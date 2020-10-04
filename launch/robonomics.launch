@@ -1,4 +1,11 @@
-<launch>	 
-    <node pkg="roomba980" type="pub_data.py" name="pub_data" respawn="true"/>
-    <node pkg="roomba980" type="send_data_client.py" name="send_data_client" output="screen" respawn="true"/>
+<launch>
+	<arg name="config" default="$(find roomba980)/config/config.yaml" />
+
+    <node ns="roomba" pkg="roomba980" type="publish_mission.py" name="mission_publisher" respawn="true" output="screen">
+        <param name="config" value="$(arg config)" />
+    </node>
+
+    <node ns="roomba" pkg="roomba980" type="send_command_client.py" name="command_sender" output="screen" respawn="true">
+        <param name="config" value="$(arg config)" />
+    </node>
 </launch>
