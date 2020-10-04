@@ -61,16 +61,17 @@ Run ipfs daemon:
 ipfs daemon
 ```
 ### Running Roomba package
-You can see roomba's states running getMission node:
-```bash
-rosrun roomba980 pub_data.py
+
 ```
-It publish information in mission topic.
-Then run send_data_client.py
-```bash
-python send_data_client.py
+roslaunch roomba980 robonomics.launch
 ```
-And sent the transaction
+
+Mission's state
+```
+rostopic echo /roomba/mission
+```
+
+To launch a robot send the transaction
 ```bash
 echo "ON" | ./robonomics io write launch -r <ROOMBA_ADDRESS> -s <WORK_KEY>
 ```
