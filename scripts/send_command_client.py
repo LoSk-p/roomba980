@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import rospy
 import json
 from std_msgs.msg import String
@@ -14,7 +14,8 @@ import yaml
 class CommandSender:
     def __init__(self):
         rospy.init_node("robonomics_listener", anonymous=False)
-
+        self.file = None
+        self.write = False
         config_path = rospy.get_param("~config")
 
         try:
@@ -41,27 +42,32 @@ class CommandSender:
             print("Service call failed: %s"%e)
 
     def listener(self, data):
-        if write:
-            file.write('\n')
-            file.write(str(data))
+        if self.write:
+            print(1)
+            time.sleep(1)
+            self.file.write('\n')
+            self.file.write(str(data))
 
 
     def clean(self, duration):
+        dirname = os.path.dirname(__file__)
+        print(dirname)
         first_time = time.time()
         self.send_command_client('Start')
-        global file
-        file = open(dirname + "/data", 'w')
-        global write
-        write = True
+        self.file = open(dirname + "/data", 'w')
+        self.write = True
         while (time.time() - first_time) < duration:
-            rospy.Subscriber('/mission', Mission, self.listener)
-        write = False
+            #print(2)
+            rospy.Subscriber('/roomba/mission', Mission, self.listener)
+        self.write = False
         print('Work done')
-        file.close()
+        time.sleep(1)
+        self.file.close()
         self.send_command_client('Stop')
         time.sleep(2)
         self.send_command_client('Home')
         res = self.ipfsclient.add(dirname + "/data")
+        os.remove(dirname + "/data")
         print('Data sent to IPFS')
         command = "echo \"Hash: " + res['Hash'] + "\" | " + self.config["path"]["robonomics"] + "robonomics io write datalog -s " + self.config["robonomics"]["roomba_key"]
         send_datalog = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
@@ -71,23 +77,28 @@ class CommandSender:
         work_paid = True
         proc = self.config["path"]["robonomics"] + "robonomics io read launch"
         process = subprocess.Popen(proc, shell=True, stdout=subprocess.PIPE)
-        #while True:
-        if work_paid:
-            print("Waiting for payment")
-        try:
-            output = process.stdout.readline()
-            if output.strip() == self.config["robonomics"]["work_address"] + " >> " + self.config["robonomics"]["roomba_address"] + " : true":
-                print("Work paid")
-                work_paid = True
-                self.clean(5)
-            else:
-                work_paid = False
+        while True:
+            #process = subprocess.Popen(proc, shell=True, stdout=subprocess.PIPE)
+            if work_paid:
+                print("Waiting for payment")
+            try:
+                output = process.stdout.readline()
+                #print(output.strip())
+                #print("b\'" + self.config["robonomics"]["work_address"] + " >> " + self.config["robonomics"]["roomba_address"] + " : true" + "\'")
+                if str(output.strip()) == "b\'" + self.config["robonomics"]["work_address"] + " >> " + self.config["robonomics"]["roomba_address"] + " : true" + "\'":
+                    print("Work paid")
+                    work_paid = True
+                    self.clean(5)
+                else:
+                    work_paid = False
 
-        except KeyboardInterrupt:
-            exit()
+            except KeyboardInterrupt:
+                exit()
+            #process.kill()
         rospy.spin()
 
 
 if __name__ == "__main__":
+    #while True:
     CommandSender().spin()
 

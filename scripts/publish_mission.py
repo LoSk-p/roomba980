@@ -10,9 +10,6 @@ import yaml
 from roomba import Roomba
 
 
-#data = {"name": "robot", "batPct": 100, "cleanMissionStatus": {"cycle": "none", "phase": "charge", "error": 0, "notReady": 0}, "pose": {"point": {"x": 100, "y": 20},"theta": -28}, "audio": {"active": True}}
-#data_state = "Charging"
-
 class PublishMission:
     def __init__(self):
         rospy.init_node("mission_publisher", anonymous=True)
@@ -36,13 +33,13 @@ class PublishMission:
 
     def send_command(self, req):
         if req.command == "Start":
-            self.myroomba.send_command("start")
+            #self.myroomba.send_command("start")
             return("Starting cleaning")
         elif req.command == "Stop":
-            self.myroomba.send_command("stop")
+            #self.myroomba.send_command("stop")
             return("Stop cleaning")
         elif req.command == "Home":
-            self.myroomba.send_command("dock")
+            #self.myroomba.send_command("dock")
             return("Going back home")
         else:
             return("Wrong command")
@@ -65,9 +62,11 @@ class PublishMission:
     def spin(self):
         rate = rospy.Rate(1)
         while not rospy.is_shutdown():
-            data_state = self.myroomba.current_state
-            data1 = self.myroomba.master_state
-            data = data1["state"]["reported"]
+            data = {"name": "robot", "batPct": 100, "cleanMissionStatus": {"cycle": "none", "phase": "charge", "error": 0, "notReady": 0}, "pose": {"point": {"x": 100, "y": 20},"theta": -28}, "audio": {"active": True}}
+            data_state = "Charging"
+            #data_state = self.myroomba.current_state
+            #data1 = self.myroomba.master_state
+            #data = data1["state"]["reported"]
             mission_msg = self.get_msg_data(data, data_state)
             self.pub_mission.publish(mission_msg)
             rate.sleep()
