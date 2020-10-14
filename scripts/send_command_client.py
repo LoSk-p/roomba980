@@ -43,7 +43,6 @@ class CommandSender:
 
     def listener(self, data):
         if self.write:
-            print(1)
             time.sleep(1)
             self.file.write('\n')
             self.file.write(str(data))
@@ -57,7 +56,6 @@ class CommandSender:
         self.file = open(dirname + "/data", 'w')
         self.write = True
         while (time.time() - first_time) < duration:
-            #print(2)
             rospy.Subscriber('/roomba/mission', Mission, self.listener)
         self.write = False
         print('Work done')
@@ -76,9 +74,10 @@ class CommandSender:
     def spin(self):
         work_paid = True
         proc = self.config["path"]["robonomics"] + "robonomics io read launch"
-        process = subprocess.Popen(proc, shell=True, stdout=subprocess.PIPE)
+        #process = subprocess.Popen(proc, shell=True, stdout=subprocess.PIPE)
         while True:
-            #process = subprocess.Popen(proc, shell=True, stdout=subprocess.PIPE)
+            time.sleep(4)
+            process = subprocess.Popen(proc, shell=True, stdout=subprocess.PIPE)
             if work_paid:
                 print("Waiting for payment")
             try:
@@ -88,7 +87,7 @@ class CommandSender:
                 if str(output.strip()) == "b\'" + self.config["robonomics"]["work_address"] + " >> " + self.config["robonomics"]["roomba_address"] + " : true" + "\'":
                     print("Work paid")
                     work_paid = True
-                    self.clean(5)
+                    self.clean(300)
                 else:
                     work_paid = False
 
