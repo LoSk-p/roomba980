@@ -4,7 +4,6 @@ roomba:
     password: ""
 path:
     robonomics: "/home/alena/"
-    roomba_python: "/home/alena/"
 robonomics:
     roomba_address: "5Gp6SMSRLmSSo5Cyo57gFfcxF3WWCpQgjSVHPR3UgifPnyEv"
     roomba_key: "0xb5175c424628c1b9d5a10287627a1a257f32ed1f021d5787329294fa0144feb8"
