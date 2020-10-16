@@ -18,7 +18,7 @@ pip install ipfshttpclient
 * Robonomics node (binary file) (download latest release [here](https://github.com/airalab/robonomics/releases))
 ***
 ## Installation
-Install python libraryы:
+Install python librarys:
 ```bash
 pip3 install paho-mqtt
 pip3 install six
