@@ -18,11 +18,10 @@ pip install ipfshttpclient
 * Robonomics node (binary file) (download latest release [here](https://github.com/airalab/robonomics/releases))
 ***
 ## Installation
-Install python library:
+Install python libraryы:
 ```bash
 pip3 install paho-mqtt
 pip3 install six
-git clone https://github.com/NickWaterton/Roomba980-Python.git
 pip3 uninstall enum34
 ```
 Install ROS package into your ROS workspace:
@@ -34,7 +33,7 @@ catkin_make
 ```
 ***
 ## Configuration
-Edit config.yaml file in roomba980/src. In "path" write your path to robonomics file and to Roomba980-Python directory
+Edit config.yaml file in roomba980/config. In "path" write your path to robonomics file.
 ***
 ## Running
 ### Running robonomics
